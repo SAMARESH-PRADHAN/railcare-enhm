@@ -53,15 +53,10 @@ function StationManagement() {
     const res = actions.upsertStation({
       id: editStation === "new" ? undefined : (editStation as Station).id,
       active: form.active,
+      chiId: form.chiId === "none" ? null : form.chiId,
       code: form.code.trim(), name: form.name.trim(), category: form.category, platforms: Number(form.platforms) || 0,
     });
     if (!res.ok) { toast.error(res.error); return; }
-    // CHI assignment handled separately to keep audit trail clean
-    const st = editStation === "new" ? db.stations[db.stations.length - 1] : (editStation as Station);
-    if (st) {
-      const targetChi = form.chiId === "none" ? null : form.chiId;
-      if (targetChi !== (st.chiId ?? null)) actions.assignChi(st.id, targetChi);
-    }
     toast.success(editStation === "new" ? "Station added" : "Station updated");
     setEditStation(null);
   };

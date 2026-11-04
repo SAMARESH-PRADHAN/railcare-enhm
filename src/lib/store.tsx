@@ -243,9 +243,10 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
           const s = draft.stations.find((x) => x.id === input.id)!;
           Object.assign(s, { code: input.code.toUpperCase(), name: input.name, category: input.category, platforms: input.platforms });
           if (input.active !== undefined) s.active = input.active;
+          if (input.chiId !== undefined) s.chiId = input.chiId;
         } else {
           const id = `st-${input.code.toLowerCase()}-${Date.now()}`;
-          draft.stations.push({ id, code: input.code.toUpperCase(), name: input.name, category: input.category, platforms: input.platforms, active: true, chiId: null, createdAt: new Date().toISOString() });
+          draft.stations.push({ id, code: input.code.toUpperCase(), name: input.name, category: input.category, platforms: input.platforms, active: true, chiId: input.chiId ?? null, createdAt: new Date().toISOString() });
           draft.ranges[id] = { dry: [50, 150], wet: [40, 120], infeed: [40, 160] };
         }
       },

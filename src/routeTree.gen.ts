@@ -15,6 +15,7 @@ import { Route as ChiRouteImport } from './routes/chi'
 import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminStationsRouteImport } from './routes/admin.stations'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as ChiIndexRouteImport } from './routes/chi.index'
 import { Route as ChiCorrectionsRouteImport } from './routes/chi.corrections'
@@ -55,6 +56,11 @@ const OfficerRoute = OfficerRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStationsRoute = AdminStationsRouteImport.update({
+  id: '/stations',
+  path: '/stations',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
   '/chi/history': typeof ChiHistoryRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
   '/chi/history': typeof ChiHistoryRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
   '/chi/history': typeof ChiHistoryRoute
@@ -175,6 +184,7 @@ export interface FileRouteTypes {
     | '/chi'
     | '/clerk'
     | '/officer'
+    | '/admin/stations'
     | '/admin/users'
     | '/chi/corrections'
     | '/chi/history'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/stations'
     | '/admin/users'
     | '/chi/corrections'
     | '/chi/history'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/chi'
     | '/clerk'
     | '/officer'
+    | '/admin/stations'
     | '/admin/users'
     | '/chi/corrections'
     | '/chi/history'
@@ -273,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stations': {
+      id: '/admin/stations'
+      path: '/stations'
+      fullPath: '/admin/stations'
+      preLoaderRoute: typeof AdminStationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/users': {
@@ -356,11 +375,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminStationsRoute: typeof AdminStationsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminStationsRoute: AdminStationsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
