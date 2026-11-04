@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useDemo } from "@/lib/store";
-import { activityName, fmtDate, fmtDateTime, userById } from "@/lib/derive";
+import { activityName, fmtDate, fmtDateTime } from "@/lib/derive";
 import { exceptionRows, rangeLabel, valueLabel, type WorkRow } from "@/lib/ops";
 import { DemoNote, EmptyState, PageHeader, SampleBanner, SectionCard, StatCard } from "@/components/shared/ui-bits";
 import { todayISO } from "@/data/seed";
@@ -188,5 +188,3 @@ function ExceptionQueue() {
     </div>
   );
 }
-
-export { userById };
