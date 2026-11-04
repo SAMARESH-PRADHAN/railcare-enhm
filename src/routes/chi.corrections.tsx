@@ -1,13 +1,11 @@
 import { useMemo } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ClipboardCheck, FileClock, Info } from "lucide-react";
+import { ClipboardCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDemo } from "@/lib/store";
 import { ChiPhoneFrame } from "@/components/layout/chi-phone-frame";
-import { activityName, fmtDate, fmtDateTime, stationsOfChi } from "@/lib/derive";
-import type { MrfEntry, WasteEntry } from "@/data/types";
-import { EmptyState, StatusBadge, DemoNote, SectionCard, DemoPhoto } from "@/components/shared/ui-bits";
-import { todayISO } from "@/data/seed";
+import { activityName, fmtDate, stationsOfChi } from "@/lib/derive";
+import { EmptyState, StatusBadge, DemoNote } from "@/components/shared/ui-bits";
 
 export const Route = createFileRoute("/chi/corrections")({
   head: () => ({ meta: [{ title: "Corrections Required | CHI Field Workspace | EnHM" }] }),
@@ -86,5 +84,3 @@ function ChiCorrections() {
     </ChiPhoneFrame>
   );
 }
-
-export { Info, FileClock, WasteEntry, MrfEntry, SectionCard, DemoPhoto, todayISO, fmtDateTime };
