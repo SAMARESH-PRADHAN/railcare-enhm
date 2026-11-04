@@ -15,7 +15,9 @@ import { Route as ChiRouteImport } from './routes/chi'
 import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminActivitiesRouteImport } from './routes/admin.activities'
 import { Route as AdminAssignmentsRouteImport } from './routes/admin.assignments'
+import { Route as AdminRulesRouteImport } from './routes/admin.rules'
 import { Route as AdminStationsRouteImport } from './routes/admin.stations'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as ChiIndexRouteImport } from './routes/chi.index'
@@ -59,9 +61,19 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminActivitiesRoute = AdminActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAssignmentsRoute = AdminAssignmentsRouteImport.update({
   id: '/assignments',
   path: '/assignments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRulesRoute = AdminRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminStationsRoute = AdminStationsRouteImport.update({
@@ -131,7 +143,9 @@ export interface FileRoutesByFullPath {
   '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/admin/activities': typeof AdminActivitiesRoute
   '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/rules': typeof AdminRulesRoute
   '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
@@ -148,7 +162,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/activities': typeof AdminActivitiesRoute
   '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/rules': typeof AdminRulesRoute
   '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
@@ -170,7 +186,9 @@ export interface FileRoutesById {
   '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/admin/activities': typeof AdminActivitiesRoute
   '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/rules': typeof AdminRulesRoute
   '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
@@ -193,7 +211,9 @@ export interface FileRouteTypes {
     | '/chi'
     | '/clerk'
     | '/officer'
+    | '/admin/activities'
     | '/admin/assignments'
+    | '/admin/rules'
     | '/admin/stations'
     | '/admin/users'
     | '/chi/corrections'
@@ -210,7 +230,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/activities'
     | '/admin/assignments'
+    | '/admin/rules'
     | '/admin/stations'
     | '/admin/users'
     | '/chi/corrections'
@@ -231,7 +253,9 @@ export interface FileRouteTypes {
     | '/chi'
     | '/clerk'
     | '/officer'
+    | '/admin/activities'
     | '/admin/assignments'
+    | '/admin/rules'
     | '/admin/stations'
     | '/admin/users'
     | '/chi/corrections'
@@ -299,11 +323,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/activities': {
+      id: '/admin/activities'
+      path: '/activities'
+      fullPath: '/admin/activities'
+      preLoaderRoute: typeof AdminActivitiesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/assignments': {
       id: '/admin/assignments'
       path: '/assignments'
       fullPath: '/admin/assignments'
       preLoaderRoute: typeof AdminAssignmentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/rules': {
+      id: '/admin/rules'
+      path: '/rules'
+      fullPath: '/admin/rules'
+      preLoaderRoute: typeof AdminRulesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/stations': {
@@ -394,14 +432,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminActivitiesRoute: typeof AdminActivitiesRoute
   AdminAssignmentsRoute: typeof AdminAssignmentsRoute
+  AdminRulesRoute: typeof AdminRulesRoute
   AdminStationsRoute: typeof AdminStationsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivitiesRoute: AdminActivitiesRoute,
   AdminAssignmentsRoute: AdminAssignmentsRoute,
+  AdminRulesRoute: AdminRulesRoute,
   AdminStationsRoute: AdminStationsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
