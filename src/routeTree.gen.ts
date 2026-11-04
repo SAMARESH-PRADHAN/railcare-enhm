@@ -10,16 +10,41 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ChiRouteImport } from './routes/chi'
 import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminActivitiesRouteImport } from './routes/admin.activities'
+import { Route as AdminAssignmentsRouteImport } from './routes/admin.assignments'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminRulesRouteImport } from './routes/admin.rules'
+import { Route as AdminStationsRouteImport } from './routes/admin.stations'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as ChiIndexRouteImport } from './routes/chi.index'
+import { Route as ChiCorrectionsRouteImport } from './routes/chi.corrections'
+import { Route as ChiHistoryRouteImport } from './routes/chi.history'
 import { Route as ClerkIndexRouteImport } from './routes/clerk.index'
+import { Route as ClerkCorrectionsRouteImport } from './routes/clerk.corrections'
+import { Route as ClerkHistoryRouteImport } from './routes/clerk.history'
 import { Route as OfficerIndexRouteImport } from './routes/officer.index'
 import { Route as OfficerExceptionsRouteImport } from './routes/officer.exceptions'
 import { Route as OfficerVerificationsRouteImport } from './routes/officer.verifications'
+import { Route as ChiTaskTaskIdRouteImport } from './routes/chi.task.$taskId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChiRoute = ChiRouteImport.update({
+  id: '/chi',
+  path: '/chi',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClerkRoute = ClerkRouteImport.update({
@@ -32,9 +57,69 @@ const OfficerRoute = OfficerRouteImport.update({
   path: '/officer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminActivitiesRoute = AdminActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAssignmentsRoute = AdminAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRulesRoute = AdminRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStationsRoute = AdminStationsRouteImport.update({
+  id: '/stations',
+  path: '/stations',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ChiIndexRoute = ChiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ChiRoute,
+} as any)
+const ChiCorrectionsRoute = ChiCorrectionsRouteImport.update({
+  id: '/corrections',
+  path: '/corrections',
+  getParentRoute: () => ChiRoute,
+} as any)
+const ChiHistoryRoute = ChiHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => ChiRoute,
+} as any)
 const ClerkIndexRoute = ClerkIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ClerkRoute,
+} as any)
+const ClerkCorrectionsRoute = ClerkCorrectionsRouteImport.update({
+  id: '/corrections',
+  path: '/corrections',
+  getParentRoute: () => ClerkRoute,
+} as any)
+const ClerkHistoryRoute = ClerkHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => ClerkRoute,
 } as any)
 const OfficerIndexRoute = OfficerIndexRouteImport.update({
@@ -52,63 +137,156 @@ const OfficerVerificationsRoute = OfficerVerificationsRouteImport.update({
   path: '/verifications',
   getParentRoute: () => OfficerRoute,
 } as any)
+const ChiTaskTaskIdRoute = ChiTaskTaskIdRouteImport.update({
+  id: '/task/$taskId',
+  path: '/task/$taskId',
+  getParentRoute: () => ChiRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/admin/activities': typeof AdminActivitiesRoute
+  '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/rules': typeof AdminRulesRoute
+  '/admin/stations': typeof AdminStationsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/chi/corrections': typeof ChiCorrectionsRoute
+  '/chi/history': typeof ChiHistoryRoute
+  '/clerk/corrections': typeof ClerkCorrectionsRoute
+  '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/admin/': typeof AdminIndexRoute
+  '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
+  '/chi/task/$taskId': typeof ChiTaskTaskIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/activities': typeof AdminActivitiesRoute
+  '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/rules': typeof AdminRulesRoute
+  '/admin/stations': typeof AdminStationsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/chi/corrections': typeof ChiCorrectionsRoute
+  '/chi/history': typeof ChiHistoryRoute
+  '/clerk/corrections': typeof ClerkCorrectionsRoute
+  '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/admin': typeof AdminIndexRoute
+  '/chi': typeof ChiIndexRoute
   '/clerk': typeof ClerkIndexRoute
   '/officer': typeof OfficerIndexRoute
+  '/chi/task/$taskId': typeof ChiTaskTaskIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/admin/activities': typeof AdminActivitiesRoute
+  '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/rules': typeof AdminRulesRoute
+  '/admin/stations': typeof AdminStationsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/chi/corrections': typeof ChiCorrectionsRoute
+  '/chi/history': typeof ChiHistoryRoute
+  '/clerk/corrections': typeof ClerkCorrectionsRoute
+  '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/admin/': typeof AdminIndexRoute
+  '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
+  '/chi/task/$taskId': typeof ChiTaskTaskIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/chi'
     | '/clerk'
     | '/officer'
+    | '/admin/activities'
+    | '/admin/assignments'
+    | '/admin/reports'
+    | '/admin/rules'
+    | '/admin/stations'
+    | '/admin/users'
+    | '/chi/corrections'
+    | '/chi/history'
+    | '/clerk/corrections'
+    | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/admin/'
+    | '/chi/'
     | '/clerk/'
     | '/officer/'
+    | '/chi/task/$taskId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/activities'
+    | '/admin/assignments'
+    | '/admin/reports'
+    | '/admin/rules'
+    | '/admin/stations'
+    | '/admin/users'
+    | '/chi/corrections'
+    | '/chi/history'
+    | '/clerk/corrections'
+    | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/admin'
+    | '/chi'
     | '/clerk'
     | '/officer'
+    | '/chi/task/$taskId'
   id:
     | '__root__'
     | '/'
+    | '/admin'
+    | '/chi'
     | '/clerk'
     | '/officer'
+    | '/admin/activities'
+    | '/admin/assignments'
+    | '/admin/reports'
+    | '/admin/rules'
+    | '/admin/stations'
+    | '/admin/users'
+    | '/chi/corrections'
+    | '/chi/history'
+    | '/clerk/corrections'
+    | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/admin/'
+    | '/chi/'
     | '/clerk/'
     | '/officer/'
+    | '/chi/task/$taskId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  ChiRoute: typeof ChiRouteWithChildren
   ClerkRoute: typeof ClerkRouteWithChildren
   OfficerRoute: typeof OfficerRouteWithChildren
 }
@@ -120,6 +298,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chi': {
+      id: '/chi'
+      path: '/chi'
+      fullPath: '/chi'
+      preLoaderRoute: typeof ChiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk': {
@@ -136,11 +328,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/activities': {
+      id: '/admin/activities'
+      path: '/activities'
+      fullPath: '/admin/activities'
+      preLoaderRoute: typeof AdminActivitiesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/assignments': {
+      id: '/admin/assignments'
+      path: '/assignments'
+      fullPath: '/admin/assignments'
+      preLoaderRoute: typeof AdminAssignmentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/rules': {
+      id: '/admin/rules'
+      path: '/rules'
+      fullPath: '/admin/rules'
+      preLoaderRoute: typeof AdminRulesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stations': {
+      id: '/admin/stations'
+      path: '/stations'
+      fullPath: '/admin/stations'
+      preLoaderRoute: typeof AdminStationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/chi/': {
+      id: '/chi/'
+      path: '/'
+      fullPath: '/chi/'
+      preLoaderRoute: typeof ChiIndexRouteImport
+      parentRoute: typeof ChiRoute
+    }
+    '/chi/corrections': {
+      id: '/chi/corrections'
+      path: '/corrections'
+      fullPath: '/chi/corrections'
+      preLoaderRoute: typeof ChiCorrectionsRouteImport
+      parentRoute: typeof ChiRoute
+    }
+    '/chi/history': {
+      id: '/chi/history'
+      path: '/history'
+      fullPath: '/chi/history'
+      preLoaderRoute: typeof ChiHistoryRouteImport
+      parentRoute: typeof ChiRoute
+    }
     '/clerk/': {
       id: '/clerk/'
       path: '/'
       fullPath: '/clerk/'
       preLoaderRoute: typeof ClerkIndexRouteImport
+      parentRoute: typeof ClerkRoute
+    }
+    '/clerk/corrections': {
+      id: '/clerk/corrections'
+      path: '/corrections'
+      fullPath: '/clerk/corrections'
+      preLoaderRoute: typeof ClerkCorrectionsRouteImport
+      parentRoute: typeof ClerkRoute
+    }
+    '/clerk/history': {
+      id: '/clerk/history'
+      path: '/history'
+      fullPath: '/clerk/history'
+      preLoaderRoute: typeof ClerkHistoryRouteImport
       parentRoute: typeof ClerkRoute
     }
     '/officer/': {
@@ -164,14 +440,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficerVerificationsRouteImport
       parentRoute: typeof OfficerRoute
     }
+    '/chi/task/$taskId': {
+      id: '/chi/task/$taskId'
+      path: '/task/$taskId'
+      fullPath: '/chi/task/$taskId'
+      preLoaderRoute: typeof ChiTaskTaskIdRouteImport
+      parentRoute: typeof ChiRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminActivitiesRoute: typeof AdminActivitiesRoute
+  AdminAssignmentsRoute: typeof AdminAssignmentsRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminRulesRoute: typeof AdminRulesRoute
+  AdminStationsRoute: typeof AdminStationsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivitiesRoute: AdminActivitiesRoute,
+  AdminAssignmentsRoute: AdminAssignmentsRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminRulesRoute: AdminRulesRoute,
+  AdminStationsRoute: AdminStationsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface ChiRouteChildren {
+  ChiCorrectionsRoute: typeof ChiCorrectionsRoute
+  ChiHistoryRoute: typeof ChiHistoryRoute
+  ChiIndexRoute: typeof ChiIndexRoute
+  ChiTaskTaskIdRoute: typeof ChiTaskTaskIdRoute
+}
+
+const ChiRouteChildren: ChiRouteChildren = {
+  ChiCorrectionsRoute: ChiCorrectionsRoute,
+  ChiHistoryRoute: ChiHistoryRoute,
+  ChiIndexRoute: ChiIndexRoute,
+  ChiTaskTaskIdRoute: ChiTaskTaskIdRoute,
+}
+
+const ChiRouteWithChildren = ChiRoute._addFileChildren(ChiRouteChildren)
+
 interface ClerkRouteChildren {
+  ClerkCorrectionsRoute: typeof ClerkCorrectionsRoute
+  ClerkHistoryRoute: typeof ClerkHistoryRoute
   ClerkIndexRoute: typeof ClerkIndexRoute
 }
 
 const ClerkRouteChildren: ClerkRouteChildren = {
+  ClerkCorrectionsRoute: ClerkCorrectionsRoute,
+  ClerkHistoryRoute: ClerkHistoryRoute,
   ClerkIndexRoute: ClerkIndexRoute,
 }
 
@@ -194,6 +519,8 @@ const OfficerRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  ChiRoute: ChiRouteWithChildren,
   ClerkRoute: ClerkRouteWithChildren,
   OfficerRoute: OfficerRouteWithChildren,
 }
