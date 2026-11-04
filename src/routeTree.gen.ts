@@ -17,6 +17,7 @@ import { Route as OfficerRouteImport } from './routes/officer'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivitiesRouteImport } from './routes/admin.activities'
 import { Route as AdminAssignmentsRouteImport } from './routes/admin.assignments'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminRulesRouteImport } from './routes/admin.rules'
 import { Route as AdminStationsRouteImport } from './routes/admin.stations'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
@@ -69,6 +70,11 @@ const AdminActivitiesRoute = AdminActivitiesRouteImport.update({
 const AdminAssignmentsRoute = AdminAssignmentsRouteImport.update({
   id: '/assignments',
   path: '/assignments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminRulesRoute = AdminRulesRouteImport.update({
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/officer': typeof OfficerRouteWithChildren
   '/admin/activities': typeof AdminActivitiesRoute
   '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/rules': typeof AdminRulesRoute
   '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/activities': typeof AdminActivitiesRoute
   '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/rules': typeof AdminRulesRoute
   '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -188,6 +196,7 @@ export interface FileRoutesById {
   '/officer': typeof OfficerRouteWithChildren
   '/admin/activities': typeof AdminActivitiesRoute
   '/admin/assignments': typeof AdminAssignmentsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/rules': typeof AdminRulesRoute
   '/admin/stations': typeof AdminStationsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/officer'
     | '/admin/activities'
     | '/admin/assignments'
+    | '/admin/reports'
     | '/admin/rules'
     | '/admin/stations'
     | '/admin/users'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/activities'
     | '/admin/assignments'
+    | '/admin/reports'
     | '/admin/rules'
     | '/admin/stations'
     | '/admin/users'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/officer'
     | '/admin/activities'
     | '/admin/assignments'
+    | '/admin/reports'
     | '/admin/rules'
     | '/admin/stations'
     | '/admin/users'
@@ -335,6 +347,13 @@ declare module '@tanstack/react-router' {
       path: '/assignments'
       fullPath: '/admin/assignments'
       preLoaderRoute: typeof AdminAssignmentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/rules': {
@@ -434,6 +453,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminActivitiesRoute: typeof AdminActivitiesRoute
   AdminAssignmentsRoute: typeof AdminAssignmentsRoute
+  AdminReportsRoute: typeof AdminReportsRoute
   AdminRulesRoute: typeof AdminRulesRoute
   AdminStationsRoute: typeof AdminStationsRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -443,6 +463,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActivitiesRoute: AdminActivitiesRoute,
   AdminAssignmentsRoute: AdminAssignmentsRoute,
+  AdminReportsRoute: AdminReportsRoute,
   AdminRulesRoute: AdminRulesRoute,
   AdminStationsRoute: AdminStationsRoute,
   AdminUsersRoute: AdminUsersRoute,
