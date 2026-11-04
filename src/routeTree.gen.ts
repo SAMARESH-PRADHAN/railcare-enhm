@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
 import { Route as ClerkIndexRouteImport } from './routes/clerk.index'
+import { Route as ClerkCorrectionsRouteImport } from './routes/clerk.corrections'
+import { Route as ClerkHistoryRouteImport } from './routes/clerk.history'
 import { Route as OfficerIndexRouteImport } from './routes/officer.index'
 import { Route as OfficerExceptionsRouteImport } from './routes/officer.exceptions'
 import { Route as OfficerVerificationsRouteImport } from './routes/officer.verifications'
@@ -37,6 +39,16 @@ const ClerkIndexRoute = ClerkIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ClerkRoute,
 } as any)
+const ClerkCorrectionsRoute = ClerkCorrectionsRouteImport.update({
+  id: '/corrections',
+  path: '/corrections',
+  getParentRoute: () => ClerkRoute,
+} as any)
+const ClerkHistoryRoute = ClerkHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => ClerkRoute,
+} as any)
 const OfficerIndexRoute = OfficerIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -57,6 +69,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/clerk/corrections': typeof ClerkCorrectionsRoute
+  '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
   '/clerk/': typeof ClerkIndexRoute
@@ -64,6 +78,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/clerk/corrections': typeof ClerkCorrectionsRoute
+  '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
   '/clerk': typeof ClerkIndexRoute
@@ -74,6 +90,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
+  '/clerk/corrections': typeof ClerkCorrectionsRoute
+  '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
   '/clerk/': typeof ClerkIndexRoute
@@ -85,6 +103,8 @@ export interface FileRouteTypes {
     | '/'
     | '/clerk'
     | '/officer'
+    | '/clerk/corrections'
+    | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
     | '/clerk/'
@@ -92,6 +112,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/clerk/corrections'
+    | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
     | '/clerk'
@@ -101,6 +123,8 @@ export interface FileRouteTypes {
     | '/'
     | '/clerk'
     | '/officer'
+    | '/clerk/corrections'
+    | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
     | '/clerk/'
@@ -143,6 +167,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkIndexRouteImport
       parentRoute: typeof ClerkRoute
     }
+    '/clerk/corrections': {
+      id: '/clerk/corrections'
+      path: '/corrections'
+      fullPath: '/clerk/corrections'
+      preLoaderRoute: typeof ClerkCorrectionsRouteImport
+      parentRoute: typeof ClerkRoute
+    }
+    '/clerk/history': {
+      id: '/clerk/history'
+      path: '/history'
+      fullPath: '/clerk/history'
+      preLoaderRoute: typeof ClerkHistoryRouteImport
+      parentRoute: typeof ClerkRoute
+    }
     '/officer/': {
       id: '/officer/'
       path: '/'
@@ -168,10 +206,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface ClerkRouteChildren {
+  ClerkCorrectionsRoute: typeof ClerkCorrectionsRoute
+  ClerkHistoryRoute: typeof ClerkHistoryRoute
   ClerkIndexRoute: typeof ClerkIndexRoute
 }
 
 const ClerkRouteChildren: ClerkRouteChildren = {
+  ClerkCorrectionsRoute: ClerkCorrectionsRoute,
+  ClerkHistoryRoute: ClerkHistoryRoute,
   ClerkIndexRoute: ClerkIndexRoute,
 }
 
