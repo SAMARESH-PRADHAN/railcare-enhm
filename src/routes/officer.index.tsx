@@ -498,9 +498,4 @@ function AttentionCompact({ attention, db }: { attention: AttentionItem[]; db: R
   );
 }
 
-function ClearedCompact({ cleared }: { cleared: NonNullable<Awaited<ReturnType<typeof Promise.all>>>[] }) {
-  void cleared;
-  return null;
-}
 
-export { ArrowRightLeft, Gavel, BarChart3 };
