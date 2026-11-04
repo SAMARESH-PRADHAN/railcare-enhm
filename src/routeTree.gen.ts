@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
+import { Route as ClerkIndexRouteImport } from './routes/clerk.index'
 import { Route as OfficerIndexRouteImport } from './routes/officer.index'
 import { Route as OfficerExceptionsRouteImport } from './routes/officer.exceptions'
 import { Route as OfficerVerificationsRouteImport } from './routes/officer.verifications'
@@ -20,10 +22,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClerkRoute = ClerkRouteImport.update({
+  id: '/clerk',
+  path: '/clerk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OfficerRoute = OfficerRouteImport.update({
   id: '/officer',
   path: '/officer',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ClerkIndexRoute = ClerkIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ClerkRoute,
 } as any)
 const OfficerIndexRoute = OfficerIndexRouteImport.update({
   id: '/',
@@ -43,46 +55,61 @@ const OfficerVerificationsRoute = OfficerVerificationsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/clerk': typeof ClerkIndexRoute
   '/officer': typeof OfficerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/clerk'
     | '/officer'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/clerk/'
     | '/officer/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/officer/exceptions' | '/officer/verifications' | '/officer'
+  to:
+    | '/'
+    | '/officer/exceptions'
+    | '/officer/verifications'
+    | '/clerk'
+    | '/officer'
   id:
     | '__root__'
     | '/'
+    | '/clerk'
     | '/officer'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/clerk/'
     | '/officer/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClerkRoute: typeof ClerkRouteWithChildren
   OfficerRoute: typeof OfficerRouteWithChildren
 }
 
@@ -95,12 +122,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/clerk': {
+      id: '/clerk'
+      path: '/clerk'
+      fullPath: '/clerk'
+      preLoaderRoute: typeof ClerkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/officer': {
       id: '/officer'
       path: '/officer'
       fullPath: '/officer'
       preLoaderRoute: typeof OfficerRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/clerk/': {
+      id: '/clerk/'
+      path: '/'
+      fullPath: '/clerk/'
+      preLoaderRoute: typeof ClerkIndexRouteImport
+      parentRoute: typeof ClerkRoute
     }
     '/officer/': {
       id: '/officer/'
@@ -126,6 +167,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ClerkRouteChildren {
+  ClerkIndexRoute: typeof ClerkIndexRoute
+}
+
+const ClerkRouteChildren: ClerkRouteChildren = {
+  ClerkIndexRoute: ClerkIndexRoute,
+}
+
+const ClerkRouteWithChildren = ClerkRoute._addFileChildren(ClerkRouteChildren)
+
 interface OfficerRouteChildren {
   OfficerExceptionsRoute: typeof OfficerExceptionsRoute
   OfficerVerificationsRoute: typeof OfficerVerificationsRoute
@@ -143,6 +194,7 @@ const OfficerRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClerkRoute: ClerkRouteWithChildren,
   OfficerRoute: OfficerRouteWithChildren,
 }
 export const routeTree = rootRouteImport
