@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { useDemo } from "@/lib/store";
-import { chisOfClerk, fmtDate } from "@/lib/derive";
+import { chisOfClerk } from "@/lib/derive";
 import type { Role, User } from "@/data/types";
 import { EmptyState, PageHeader, SectionCard, DemoNote } from "@/components/shared/ui-bits";
 import { cn } from "@/lib/utils";
@@ -217,5 +217,3 @@ function UserManagement() {
     </div>
   );
 }
-
-export { fmtDate };
