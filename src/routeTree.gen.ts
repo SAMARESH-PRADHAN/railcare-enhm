@@ -20,6 +20,7 @@ import { Route as ClerkHistoryRouteImport } from './routes/clerk.history'
 import { Route as OfficerIndexRouteImport } from './routes/officer.index'
 import { Route as OfficerExceptionsRouteImport } from './routes/officer.exceptions'
 import { Route as OfficerVerificationsRouteImport } from './routes/officer.verifications'
+import { Route as ChiTaskTaskIdRouteImport } from './routes/chi.task.$taskId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +77,11 @@ const OfficerVerificationsRoute = OfficerVerificationsRouteImport.update({
   path: '/verifications',
   getParentRoute: () => OfficerRoute,
 } as any)
+const ChiTaskTaskIdRoute = ChiTaskTaskIdRouteImport.update({
+  id: '/task/$taskId',
+  path: '/task/$taskId',
+  getParentRoute: () => ChiRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
+  '/chi/task/$taskId': typeof ChiTaskTaskIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/chi': typeof ChiIndexRoute
   '/clerk': typeof ClerkIndexRoute
   '/officer': typeof OfficerIndexRoute
+  '/chi/task/$taskId': typeof ChiTaskTaskIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
+  '/chi/task/$taskId': typeof ChiTaskTaskIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/chi/'
     | '/clerk/'
     | '/officer/'
+    | '/chi/task/$taskId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/chi'
     | '/clerk'
     | '/officer'
+    | '/chi/task/$taskId'
   id:
     | '__root__'
     | '/'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/chi/'
     | '/clerk/'
     | '/officer/'
+    | '/chi/task/$taskId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -239,15 +251,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficerVerificationsRouteImport
       parentRoute: typeof OfficerRoute
     }
+    '/chi/task/$taskId': {
+      id: '/chi/task/$taskId'
+      path: '/task/$taskId'
+      fullPath: '/chi/task/$taskId'
+      preLoaderRoute: typeof ChiTaskTaskIdRouteImport
+      parentRoute: typeof ChiRoute
+    }
   }
 }
 
 interface ChiRouteChildren {
   ChiIndexRoute: typeof ChiIndexRoute
+  ChiTaskTaskIdRoute: typeof ChiTaskTaskIdRoute
 }
 
 const ChiRouteChildren: ChiRouteChildren = {
   ChiIndexRoute: ChiIndexRoute,
+  ChiTaskTaskIdRoute: ChiTaskTaskIdRoute,
 }
 
 const ChiRouteWithChildren = ChiRoute._addFileChildren(ChiRouteChildren)

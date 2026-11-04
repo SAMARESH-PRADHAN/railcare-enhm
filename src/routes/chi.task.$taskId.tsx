@@ -1,13 +1,13 @@
-import { useMemo, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Camera, CheckCircle2, Info, TriangleAlert, Undo2, X } from "lucide-react";
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, CheckCircle2, Info, TriangleAlert, Undo2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useDemo } from "@/lib/store";
-import { ChiPhoneFrame } from "@/modules/chi/phone-frame";
+import { ChiPhoneFrame } from "@/components/layout/chi-phone-frame";
 import { fmtDate, fmtDateTime } from "@/lib/derive";
 import type { MrfEntry, WasteEntry } from "@/data/types";
 import { DemoNote, DemoPhoto } from "@/components/shared/ui-bits";
@@ -20,7 +20,6 @@ export const Route = createFileRoute("/chi/task/$taskId")({
 function TaskPage() {
   const { taskId } = Route.useParams();
   const { db, actions, currentUser } = useDemo();
-  const navigate = useNavigate();
 
   const [kindRaw, stationId, date] = taskId.split("~");
   const kind = kindRaw === "waste" ? "waste" : kindRaw;
@@ -28,12 +27,11 @@ function TaskPage() {
 
   const station = db.stations.find((s) => s.id === stationId);
   const range = station ? db.ranges[station.id] : undefined;
-  const existing = useMemo(() => {
-    if (!valid) return undefined;
-    return kind === "waste"
+  const existing = valid
+    ? kind === "waste"
       ? db.wasteEntries.find((e) => e.stationId === stationId && e.date === date)
-      : db.mrfEntries.find((e) => e.stationId === stationId && e.date === date);
-  }, [db, kind, stationId, date, valid]);
+      : db.mrfEntries.find((e) => e.stationId === stationId && e.date === date)
+    : undefined;
 
   const [dry, setDry] = useState(existing && "dryKg" in existing ? String(existing.dryKg) : "");
   const [wet, setWet] = useState(existing && "wetKg" in existing ? String(existing.wetKg) : "");
@@ -68,7 +66,7 @@ function TaskPage() {
   const infeedOut = !isWaste && infeed !== "" && (infeedNum < range.infeed[0] || infeedNum > range.infeed[1]);
   const outOfRange = dryOut || wetOut || infeedOut;
   const remarkMissing = outOfRange && !remarks.trim();
-  const formIncomplete = isWaste ? (dry === "" || wet === "") : (infeed === "" || bales === "");
+  const formIncomplete = isWaste ? dry === "" || wet === "" : infeed === "" || bales === "";
 
   const submit = () => {
     if (formIncomplete) { toast.error("Please enter all figures before submitting."); return; }
@@ -80,7 +78,6 @@ function TaskPage() {
     toast.success(isWaste ? `Report saved — ${station.code}` : `MRF entry saved — ${station.code}`, {
       description: outOfRange ? "Saved with your explanation — marked Out of Range, awaiting clerk verification." : "Submitted for clerk verification.",
     });
-    void navigate({ to: "/chi" });
   };
 
   return (
@@ -168,7 +165,6 @@ function TaskPage() {
           </>
         )}
 
-        {/* remark: always visible; mandatory when out of range */}
         <div className="space-y-1.5">
           <Label htmlFor="remarks">
             Remarks {outOfRange ? <span className="text-destructive">* required — out-of-range reading</span> : <span className="font-normal text-muted-foreground">(optional)</span>}
@@ -179,7 +175,6 @@ function TaskPage() {
           {remarkMissing && <p className="flex items-center gap-1 text-[11px] font-medium text-warning-foreground"><X className="h-3 w-3" aria-hidden /> Submission is blocked until the remark is provided.</p>}
         </div>
 
-        {/* demo photo */}
         <div className="flex items-center justify-between gap-3 rounded-md border border-dashed border-border bg-muted/50 p-3">
           {photo ? (
             <div className="flex items-center gap-3">
