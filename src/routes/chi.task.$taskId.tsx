@@ -19,6 +19,11 @@ export const Route = createFileRoute("/chi/task/$taskId")({
 
 function TaskPage() {
   const { taskId } = Route.useParams();
+  // key resets form state when navigating between different task entries
+  return <TaskInner key={taskId} taskId={taskId} />;
+}
+
+function TaskInner({ taskId }: { taskId: string }) {
   const { db, actions, currentUser } = useDemo();
 
   const [kindRaw, stationId, date] = taskId.split("~");
