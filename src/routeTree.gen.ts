@@ -10,9 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ChiRouteImport } from './routes/chi'
 import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ChiIndexRouteImport } from './routes/chi.index'
 import { Route as ChiCorrectionsRouteImport } from './routes/chi.corrections'
 import { Route as ChiHistoryRouteImport } from './routes/chi.history'
@@ -29,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChiRoute = ChiRouteImport.update({
   id: '/chi',
   path: '/chi',
@@ -43,6 +50,11 @@ const OfficerRoute = OfficerRouteImport.update({
   id: '/officer',
   path: '/officer',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ChiIndexRoute = ChiIndexRouteImport.update({
   id: '/',
@@ -97,6 +109,7 @@ const ChiTaskTaskIdRoute = ChiTaskTaskIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
@@ -106,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/admin/': typeof AdminIndexRoute
   '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
@@ -119,6 +133,7 @@ export interface FileRoutesByTo {
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/admin': typeof AdminIndexRoute
   '/chi': typeof ChiIndexRoute
   '/clerk': typeof ClerkIndexRoute
   '/officer': typeof OfficerIndexRoute
@@ -127,6 +142,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/chi': typeof ChiRouteWithChildren
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
@@ -136,6 +152,7 @@ export interface FileRoutesById {
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/admin/': typeof AdminIndexRoute
   '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
   '/officer/': typeof OfficerIndexRoute
@@ -145,6 +162,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/chi'
     | '/clerk'
     | '/officer'
@@ -154,6 +172,7 @@ export interface FileRouteTypes {
     | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/admin/'
     | '/chi/'
     | '/clerk/'
     | '/officer/'
@@ -167,6 +186,7 @@ export interface FileRouteTypes {
     | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/admin'
     | '/chi'
     | '/clerk'
     | '/officer'
@@ -174,6 +194,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/chi'
     | '/clerk'
     | '/officer'
@@ -183,6 +204,7 @@ export interface FileRouteTypes {
     | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/admin/'
     | '/chi/'
     | '/clerk/'
     | '/officer/'
@@ -191,6 +213,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ChiRoute: typeof ChiRouteWithChildren
   ClerkRoute: typeof ClerkRouteWithChildren
   OfficerRoute: typeof OfficerRouteWithChildren
@@ -203,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chi': {
@@ -225,6 +255,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/officer'
       preLoaderRoute: typeof OfficerRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/chi/': {
       id: '/chi/'
@@ -299,6 +336,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface ChiRouteChildren {
   ChiCorrectionsRoute: typeof ChiCorrectionsRoute
   ChiHistoryRoute: typeof ChiHistoryRoute
@@ -346,6 +393,7 @@ const OfficerRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   ChiRoute: ChiRouteWithChildren,
   ClerkRoute: ClerkRouteWithChildren,
   OfficerRoute: OfficerRouteWithChildren,

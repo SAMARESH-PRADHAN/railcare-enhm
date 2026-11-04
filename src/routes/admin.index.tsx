@@ -9,7 +9,6 @@ import { useDemo } from "@/lib/store";
 import { contractDaysLeft, contractStatus, fmtDate, fmtDateTime, todayISO } from "@/lib/derive";
 import { rowsForEntryScope, valueLabel } from "@/lib/ops";
 import { PageHeader, SectionCard, StatCard, StatusBadge, SampleBanner, DemoNote } from "@/components/shared/ui-bits";
-import type { MrfEntry, WasteEntry } from "@/data/types";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -141,5 +140,3 @@ function AdminDashboard() {
     </div>
   );
 }
-
-export { WasteEntry, MrfEntry };
