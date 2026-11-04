@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ClipboardList, Undo2, Gavel } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
