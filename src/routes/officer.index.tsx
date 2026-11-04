@@ -315,7 +315,24 @@ function OfficerDashboard() {
           />
           <div className="grid gap-5 lg:grid-cols-2">
             <AttentionCompact attention={attention} db={db} />
-            <ClearedCompact cleared={cleared} />
+            <SectionCard title="B. Cleared by Clerks" subtitle={`${cleared.length} verification(s) on record`} icon={ClipboardCheck}
+              actions={<Button asChild variant="outline" size="sm" className="h-8"><Link to="/officer/verifications">History</Link></Button>}>
+              {cleared.length === 0 ? (
+                <EmptyState icon={ClipboardCheck} title="No entries cleared yet" />
+              ) : (
+                <ul className="divide-y divide-border">
+                  {cleared.slice(0, 5).map(({ v, station, clerk, value, entry }) => (
+                    <li key={v.id} className="py-2.5">
+                      <p className="text-xs font-semibold">
+                        {station?.code} · {entry.activity === "2" ? "Solid Waste" : "MRF Baling"}
+                        <span className="ml-2 font-mono tabular-nums font-normal text-muted-foreground">{value}</span>
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">{clerk?.name}: “{v.note}”</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </SectionCard>
           </div>
         </TabsContent>
       </Tabs>
