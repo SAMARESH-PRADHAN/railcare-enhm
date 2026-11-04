@@ -15,6 +15,7 @@ import { Route as ClerkRouteImport } from './routes/clerk'
 import { Route as OfficerRouteImport } from './routes/officer'
 import { Route as ChiIndexRouteImport } from './routes/chi.index'
 import { Route as ChiCorrectionsRouteImport } from './routes/chi.corrections'
+import { Route as ChiHistoryRouteImport } from './routes/chi.history'
 import { Route as ClerkIndexRouteImport } from './routes/clerk.index'
 import { Route as ClerkCorrectionsRouteImport } from './routes/clerk.corrections'
 import { Route as ClerkHistoryRouteImport } from './routes/clerk.history'
@@ -51,6 +52,11 @@ const ChiIndexRoute = ChiIndexRouteImport.update({
 const ChiCorrectionsRoute = ChiCorrectionsRouteImport.update({
   id: '/corrections',
   path: '/corrections',
+  getParentRoute: () => ChiRoute,
+} as any)
+const ChiHistoryRoute = ChiHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => ChiRoute,
 } as any)
 const ClerkIndexRoute = ClerkIndexRouteImport.update({
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
   '/chi/corrections': typeof ChiCorrectionsRoute
+  '/chi/history': typeof ChiHistoryRoute
   '/clerk/corrections': typeof ClerkCorrectionsRoute
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chi/corrections': typeof ChiCorrectionsRoute
+  '/chi/history': typeof ChiHistoryRoute
   '/clerk/corrections': typeof ClerkCorrectionsRoute
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/clerk': typeof ClerkRouteWithChildren
   '/officer': typeof OfficerRouteWithChildren
   '/chi/corrections': typeof ChiCorrectionsRoute
+  '/chi/history': typeof ChiHistoryRoute
   '/clerk/corrections': typeof ClerkCorrectionsRoute
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/clerk'
     | '/officer'
     | '/chi/corrections'
+    | '/chi/history'
     | '/clerk/corrections'
     | '/clerk/history'
     | '/officer/exceptions'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/chi/corrections'
+    | '/chi/history'
     | '/clerk/corrections'
     | '/clerk/history'
     | '/officer/exceptions'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/clerk'
     | '/officer'
     | '/chi/corrections'
+    | '/chi/history'
     | '/clerk/corrections'
     | '/clerk/history'
     | '/officer/exceptions'
@@ -228,6 +240,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChiCorrectionsRouteImport
       parentRoute: typeof ChiRoute
     }
+    '/chi/history': {
+      id: '/chi/history'
+      path: '/history'
+      fullPath: '/chi/history'
+      preLoaderRoute: typeof ChiHistoryRouteImport
+      parentRoute: typeof ChiRoute
+    }
     '/clerk/': {
       id: '/clerk/'
       path: '/'
@@ -282,12 +301,14 @@ declare module '@tanstack/react-router' {
 
 interface ChiRouteChildren {
   ChiCorrectionsRoute: typeof ChiCorrectionsRoute
+  ChiHistoryRoute: typeof ChiHistoryRoute
   ChiIndexRoute: typeof ChiIndexRoute
   ChiTaskTaskIdRoute: typeof ChiTaskTaskIdRoute
 }
 
 const ChiRouteChildren: ChiRouteChildren = {
   ChiCorrectionsRoute: ChiCorrectionsRoute,
+  ChiHistoryRoute: ChiHistoryRoute,
   ChiIndexRoute: ChiIndexRoute,
   ChiTaskTaskIdRoute: ChiTaskTaskIdRoute,
 }
