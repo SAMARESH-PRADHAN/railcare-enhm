@@ -14,7 +14,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import { useDemo } from "@/lib/store";
-import { activityName, chisOfClerk, fmtDate, fmtDateTime, stationsOfClerk, userById } from "@/lib/derive";
+import { activityName, chisOfClerk, fmtDate, fmtDateTime, stationsOfClerk } from "@/lib/derive";
 import { rangeLabel, rowsForEntryScope, valueLabel, type WorkRow } from "@/lib/ops";
 import { DemoNote, EmptyState, PageHeader, SectionCard, StatCard, StatusBadge, DemoPhoto } from "@/components/shared/ui-bits";
 import { todayISO } from "@/data/seed";
@@ -260,5 +260,3 @@ function ClerkDashboard() {
     </div>
   );
 }
-
-export { userById };
