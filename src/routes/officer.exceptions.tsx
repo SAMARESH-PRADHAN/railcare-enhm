@@ -15,7 +15,6 @@ import { exceptionRows, rangeLabel, valueLabel, type WorkRow } from "@/lib/ops";
 import { DemoNote, EmptyState, PageHeader, SampleBanner, SectionCard, StatCard } from "@/components/shared/ui-bits";
 import { todayISO } from "@/data/seed";
 import { cn } from "@/lib/utils";
-
 export const Route = createFileRoute("/officer/exceptions")({
   head: () => ({
     meta: [{ title: "Exception Queue | Officer | EnHM Management System" }],
@@ -127,9 +126,7 @@ function ExceptionQueue() {
                         <span className="text-[11px] font-medium text-muted-foreground">Awaiting CHI correction</span>
                       )}
                       {!r.entry && (
-                        <Button asChild size="sm" variant="outline" className="h-8">
-                          <Link to="/chi" search={{}}>{currentUser.role === "chi" ? "Open entry" : "CHI to submit"}</Link>
-                        </Button>
+                        <span className="text-[11px] font-medium text-muted-foreground">Awaiting CHI submission</span>
                       )}
                     </div>
                   </div>
