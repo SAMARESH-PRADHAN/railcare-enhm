@@ -4,7 +4,7 @@ import { ClipboardList, Hourglass } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useDemo } from "@/lib/store";
 import { activityName, fmtDate, fmtDateTime, stationsOfClerk, userById } from "@/lib/derive";
-import { rangeLabel, valueLabel } from "@/lib/ops";
+import { valueLabel } from "@/lib/ops";
 import { EmptyState, PageHeader, SectionCard, StatusBadge, DemoNote } from "@/components/shared/ui-bits";
 import { todayISO } from "@/data/seed";
 
