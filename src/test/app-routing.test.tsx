@@ -14,4 +14,12 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("matches station detail links with a station id", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    const matches = router.matchRoutes("/stations/st-hwh");
+
+    expect(matches.at(-1)?.routeId).toBe("/stations/$stationId");
+  });
 });

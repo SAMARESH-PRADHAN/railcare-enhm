@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+Keep the station detail page at `/stations/$stationId` as a top-level route because both admin and officer workspaces link to the same station profile.

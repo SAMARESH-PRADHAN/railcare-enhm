@@ -30,6 +30,7 @@ import { Route as ClerkHistoryRouteImport } from './routes/clerk.history'
 import { Route as OfficerIndexRouteImport } from './routes/officer.index'
 import { Route as OfficerExceptionsRouteImport } from './routes/officer.exceptions'
 import { Route as OfficerVerificationsRouteImport } from './routes/officer.verifications'
+import { Route as StationsStationIdRouteImport } from './routes/stations.$stationId'
 import { Route as ChiTaskTaskIdRouteImport } from './routes/chi.task.$taskId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -137,6 +138,11 @@ const OfficerVerificationsRoute = OfficerVerificationsRouteImport.update({
   path: '/verifications',
   getParentRoute: () => OfficerRoute,
 } as any)
+const StationsStationIdRoute = StationsStationIdRouteImport.update({
+  id: '/stations/$stationId',
+  path: '/stations/$stationId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChiTaskTaskIdRoute = ChiTaskTaskIdRouteImport.update({
   id: '/task/$taskId',
   path: '/task/$taskId',
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/stations/$stationId': typeof StationsStationIdRoute
   '/admin/': typeof AdminIndexRoute
   '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/stations/$stationId': typeof StationsStationIdRoute
   '/admin': typeof AdminIndexRoute
   '/chi': typeof ChiIndexRoute
   '/clerk': typeof ClerkIndexRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/clerk/history': typeof ClerkHistoryRoute
   '/officer/exceptions': typeof OfficerExceptionsRoute
   '/officer/verifications': typeof OfficerVerificationsRoute
+  '/stations/$stationId': typeof StationsStationIdRoute
   '/admin/': typeof AdminIndexRoute
   '/chi/': typeof ChiIndexRoute
   '/clerk/': typeof ClerkIndexRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/stations/$stationId'
     | '/admin/'
     | '/chi/'
     | '/clerk/'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/stations/$stationId'
     | '/admin'
     | '/chi'
     | '/clerk'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/clerk/history'
     | '/officer/exceptions'
     | '/officer/verifications'
+    | '/stations/$stationId'
     | '/admin/'
     | '/chi/'
     | '/clerk/'
@@ -289,6 +301,7 @@ export interface RootRouteChildren {
   ChiRoute: typeof ChiRouteWithChildren
   ClerkRoute: typeof ClerkRouteWithChildren
   OfficerRoute: typeof OfficerRouteWithChildren
+  StationsStationIdRoute: typeof StationsStationIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -440,6 +453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficerVerificationsRouteImport
       parentRoute: typeof OfficerRoute
     }
+    '/stations/$stationId': {
+      id: '/stations/$stationId'
+      path: '/stations/$stationId'
+      fullPath: '/stations/$stationId'
+      preLoaderRoute: typeof StationsStationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chi/task/$taskId': {
       id: '/chi/task/$taskId'
       path: '/task/$taskId'
@@ -523,6 +543,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChiRoute: ChiRouteWithChildren,
   ClerkRoute: ClerkRouteWithChildren,
   OfficerRoute: OfficerRouteWithChildren,
+  StationsStationIdRoute: StationsStationIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
