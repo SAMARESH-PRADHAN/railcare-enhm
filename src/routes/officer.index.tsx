@@ -66,7 +66,7 @@ function OfficerDashboard() {
       attention.push({ key: r.key, severity: "critical", state: r.state, stationId: r.station.id, activity: r.activity, title: "Escalated exception unresolved", detail: `${r.station.code} ${r.station.name} · ${activityName(db, r.activity)}`, href: "/officer/exceptions" });
     } else if (r.state === "out_of_range" && r.entry) {
       attention.push({ key: r.key, severity: "high", state: r.state, stationId: r.station.id, activity: r.activity, title: "Out-of-range reading", detail: `${r.station.code} ${r.station.name} · ${activityName(db, r.activity)} · ${valueLabel(r)} (expected ${rangeLabel(db, r)})`, href: "/officer/exceptions" });
-    } else if (r.state === "late") {
+    } else if (r.state === "late" && r.entry) {
       attention.push({ key: r.key, severity: "medium", state: r.state, stationId: r.station.id, activity: r.activity, title: "Late submission", detail: `${r.station.code} ${r.station.name} · ${activityName(db, r.activity)} · reported ${fmtDate(r.entry.date)}, submitted after due time`, href: "/officer/exceptions" });
     } else if (r.state === "missing") {
       attention.push({ key: r.key, severity: "high", state: r.state, stationId: r.station.id, activity: r.activity, title: "Missing report", detail: `${r.station.code} ${r.station.name} · ${activityName(db, r.activity)} · no entry for ${fmtDate(date)}`, href: "/officer/exceptions" });

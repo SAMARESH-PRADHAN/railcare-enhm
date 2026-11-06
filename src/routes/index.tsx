@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { RailMark, useDemo } from "@/lib/store";
 import { AppShell } from "@/components/layout/AppShell";
 import { DemoNote, SampleBanner, StatCard } from "@/components/shared/ui-bits";
-import { isException, cellFor, mrfStations, todayISO, contractStatus, chisOfClerk } from "@/lib/derive";
+import { isException, cellFor, mrfStations, contractStatus, chisOfClerk } from "@/lib/derive";
+import { todayISO } from "@/data/seed";
 import type { Role } from "@/data/types";
 import { toast } from "sonner";
 
