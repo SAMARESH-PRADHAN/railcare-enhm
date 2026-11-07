@@ -55,7 +55,7 @@ function UserManagement() {
     if (!edit) return;
     const role = edit.mode === "add" ? edit.role : edit.user.role;
     const res = actions.upsertUser({
-      id: edit.mode === "edit" ? edit.user.id : undefined,
+      ...(edit.mode === "edit" ? { id: edit.user.id } : {}),
       role, ...form,
     });
     if (!res.ok) { toast.error(res.error); return; }

@@ -52,7 +52,7 @@ export function ReportsOverview() {
               <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} stroke="var(--color-border)" unit="%" />
               <Bar dataKey="completion" radius={[3, 3, 0, 0]}>
                 {chartData.map((d, i) => (
-                  <RCell key={d.code} fill={perStation[i].exceptions > 0 ? "var(--color-chart-3)" : "var(--color-chart-2)"} />
+                  <RCell key={d.code} fill={(perStation[i]?.exceptions ?? 0) > 0 ? "var(--color-chart-3)" : "var(--color-chart-2)"} />
                 ))}
               </Bar>
             </BarChart>

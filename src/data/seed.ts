@@ -114,16 +114,15 @@ function waste(
     carriedForward?: boolean;
   }
 ): WasteEntry {
-  const submittedAt =
-    opts.status === "pending" || !opts.submittedHour
-      ? undefined
-      : dueAt(date, opts.submittedHour).replace("T", "T");
+  const submittedAt = opts.status === "pending" || !opts.submittedHour
+    ? undefined
+    : set(new Date(`${date}T00:00:00`), { hours: opts.submittedHour }).toISOString();
   return {
     id, activity: "2", stationId, chiId, date, dryKg, wetKg,
     remarks: opts.remarks ?? "",
     photo: opts.photo ?? null,
     dueAt: dueAt(date, RULES.wasteDueHour),
-    submittedAt: submittedAt && opts.submittedHour !== undefined ? set(new Date(`${date}T00:00:00`), { hours: opts.submittedHour }).toISOString() : undefined,
+    ...(submittedAt ? { submittedAt } : {}),
     late: opts.late ?? false,
     outOfRange: opts.outOfRange ?? false,
     carriedForward: opts.carriedForward ?? false,
@@ -148,12 +147,15 @@ function mrf(
     carriedForward?: boolean;
   }
 ): MrfEntry {
+  const submittedAt = opts.submittedHour !== undefined
+    ? set(new Date(`${date}T00:00:00`), { hours: opts.submittedHour }).toISOString()
+    : undefined;
   return {
     id, activity: "9", stationId, chiId, date, infeedKg, bales,
     remarks: opts.remarks ?? "",
     photo: null,
     dueAt: dueAt(date, RULES.mrfDueHour),
-    submittedAt: opts.submittedHour !== undefined ? set(new Date(`${date}T00:00:00`), { hours: opts.submittedHour }).toISOString() : undefined,
+    ...(submittedAt ? { submittedAt } : {}),
     late: opts.late ?? false,
     outOfRange: opts.outOfRange ?? false,
     carriedForward: opts.carriedForward ?? false,

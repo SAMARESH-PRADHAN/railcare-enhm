@@ -51,7 +51,7 @@ function StationManagement() {
 
   const save = () => {
     const res = actions.upsertStation({
-      id: editStation === "new" ? undefined : (editStation as Station).id,
+      ...(editStation !== "new" && editStation ? { id: editStation.id } : {}),
       active: form.active,
       chiId: form.chiId === "none" ? null : form.chiId,
       code: form.code.trim(), name: form.name.trim(), category: form.category, platforms: Number(form.platforms) || 0,
@@ -201,7 +201,7 @@ function StationManagement() {
             <Button variant={confirmStation?.active ? "destructive" : "default"}
               onClick={() => {
                 if (!confirmStation) return;
-                const res = actions.upsertStation({ id: confirmStation.id, active: !confirmStation.active, code: confirmStation.code, name: confirmStation.name, category: confirmStation.category, platforms: confirmStation.platforms });
+                const res = actions.upsertStation({ id: confirmStation.id, active: !confirmStation.active, chiId: confirmStation.chiId, code: confirmStation.code, name: confirmStation.name, category: confirmStation.category, platforms: confirmStation.platforms });
                 if (!res.ok) toast.error(res.error); else toast.success(`${confirmStation.code} ${confirmStation.active ? "deactivated" : "reactivated"}`);
                 setConfirmStation(null);
               }}>
