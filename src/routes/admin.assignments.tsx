@@ -54,7 +54,7 @@ function Assignments() {
   const fromClerkChis = useMemo(() => (fromClerk ? (userById(db, fromClerk)?.supervisesChiIds ?? []) : []), [db, fromClerk]);
 
   const doChiReassign = () => {
-    const res = actions.reassignChi({ fromChiId: fromChi, toChiId: toChi, stationIds: selStations, leaveStart: leaveStart || undefined, leaveEnd: leaveEnd || undefined, reason: chiReason, carryPending });
+    const res = actions.reassignChi({ fromChiId: fromChi, toChiId: toChi, stationIds: selStations, ...(leaveStart ? { leaveStart } : {}), ...(leaveEnd ? { leaveEnd } : {}), reason: chiReason, carryPending });
     setChiConfirm(false);
     if (!res.ok) { toast.error(res.error); return; }
     toast.success("CHI reassignment complete", {
@@ -63,7 +63,7 @@ function Assignments() {
     setFromChi(""); setToChi(""); setSelStations([]); setLeaveStart(""); setLeaveEnd(""); setChiReason("");
   };
   const doClerkReassign = () => {
-    const res = actions.reassignClerk({ fromClerkId: fromClerk, toClerkId: toClerk, leaveStart: cLeaveStart || undefined, leaveEnd: cLeaveEnd || undefined, reason: clerkReason });
+    const res = actions.reassignClerk({ fromClerkId: fromClerk, toClerkId: toClerk, ...(cLeaveStart ? { leaveStart: cLeaveStart } : {}), ...(cLeaveEnd ? { leaveEnd: cLeaveEnd } : {}), reason: clerkReason });
     setClerkConfirm(false);
     if (!res.ok) { toast.error(res.error); return; }
     toast.success("Clerk workload transferred", { description: "The absent clerk's CHIs now report to the replacement clerk." });

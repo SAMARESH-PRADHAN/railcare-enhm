@@ -107,7 +107,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
     if (outOfRange && !input.remarks.trim()) return fail("Out-of-range figure: a remark explaining the deviation is mandatory before saving.");
     const existing = d.wasteEntries.find((e) => e.stationId === input.stationId && e.date === input.date);
     const submittedAt = new Date().toISOString();
-    const late = submittedAt > new Date(dueAt(input.date, d.rules.wasteDueHour)).getTime();
+    const late = new Date(submittedAt).getTime() > new Date(dueAt(input.date, d.rules.wasteDueHour)).getTime();
     const wasSentBack = existing?.status === "sent_back";
     const isResubmit = !!existing && (wasSentBack || !!existing.submittedAt);
 
@@ -147,7 +147,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
     if (outOfRange && !input.remarks.trim()) return fail("Out-of-range figure: a remark explaining the deviation is mandatory before saving.");
     const existing = d.mrfEntries.find((e) => e.stationId === input.stationId && e.date === input.date);
     const submittedAt = new Date().toISOString();
-    const late = submittedAt > new Date(dueAt(input.date, d.rules.mrfDueHour)).getTime();
+    const late = new Date(submittedAt).getTime() > new Date(dueAt(input.date, d.rules.mrfDueHour)).getTime();
     const wasSentBack = existing?.status === "sent_back";
     const isResubmit = !!existing && (wasSentBack || !!existing.submittedAt);
     mutate(
@@ -227,7 +227,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
         target.active = !target.active;
         if (!target.active && target.role === "chi") {
           draft.stations.forEach((s) => { if (s.chiId === userId) s.chiId = null; });
-          draft.users.filter((x) => x.role === "clerk").forEach((c) => { c.supervisesChiIds = c.supervisesChiIds?.filter((id) => id !== userId); });
+          draft.users.filter((x) => x.role === "clerk").forEach((c) => { c.supervisesChiIds = (c.supervisesChiIds ?? []).filter((id) => id !== userId); });
         }
       },
       { action: u.active ? "Deactivated user" : "Reactivated user", note: u.name }
@@ -250,7 +250,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
           draft.ranges[id] = { dry: [50, 150], wet: [40, 120], infeed: [40, 160] };
         }
       },
-      { action: input.id ? "Edited station" : "Added new station", stationId: input.id, note: `${input.code} ${input.name}` }
+      { action: input.id ? "Edited station" : "Added new station", ...(input.id ? { stationId: input.id } : {}), note: `${input.code} ${input.name}` }
     );
     return ok();
   };
@@ -293,7 +293,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
         }
         draft.reassignments.push({
           id: `r-${Date.now()}`, kind: "chi", fromUserId: input.fromChiId, toUserId: input.toChiId,
-          stationIds: input.stationIds, chiIds: [], leaveStart: input.leaveStart, leaveEnd: input.leaveEnd,
+          stationIds: input.stationIds, chiIds: [], ...(input.leaveStart ? { leaveStart: input.leaveStart } : {}), ...(input.leaveEnd ? { leaveEnd: input.leaveEnd } : {}),
           reason: input.reason.trim(), at: new Date().toISOString(), byUserId: draft.sessionUserId,
         });
       },
@@ -319,7 +319,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
         t.supervisesChiIds = [...(t.supervisesChiIds ?? []), ...chiIds];
         draft.reassignments.push({
           id: `r-${Date.now()}`, kind: "clerk", fromUserId: input.fromClerkId, toUserId: input.toClerkId,
-          stationIds: [], chiIds, leaveStart: input.leaveStart, leaveEnd: input.leaveEnd,
+          stationIds: [], chiIds, ...(input.leaveStart ? { leaveStart: input.leaveStart } : {}), ...(input.leaveEnd ? { leaveEnd: input.leaveEnd } : {}),
           reason: input.reason.trim(), at: new Date().toISOString(), byUserId: draft.sessionUserId,
         });
       },
@@ -372,8 +372,9 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
     updateRange: (stationId, key, idx, value) => {
       if (Number.isNaN(value)) return fail("Enter a numeric value.");
       mutate((draft) => {
-        const cur = draft.ranges[stationId][key];
-        draft.ranges[stationId] = { ...draft.ranges[stationId], [key]: idx === 0 ? [value, cur[1]] : [cur[0], value] } as StationRange;
+        const stationRange = rangeOf(draft, stationId);
+        const cur = stationRange[key];
+        draft.ranges[stationId] = { ...stationRange, [key]: idx === 0 ? [value, cur[1]] : [cur[0], value] } as StationRange;
       });
       return ok();
     },
@@ -414,6 +415,7 @@ export function DemoStoreProvider({ children }: { children: React.ReactNode }) {
   }
 
   const currentUser = db.users.find((u) => u.id === db.sessionUserId) ?? db.users[0];
+  if (!currentUser) return null;
   return <StoreContext.Provider value={{ db, currentUser, actions }}>{children}</StoreContext.Provider>;
 }
 

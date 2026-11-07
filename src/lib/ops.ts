@@ -20,7 +20,8 @@ function decorate(db: DemoDB, station: Station, kind: "waste" | "mrf", date: str
   const clerk = chi ? clerkOfChi(db, chi.id) : undefined;
   return {
     key: entry ? `${kind}:${entry.id}` : `${kind}:missing:${station.id}:${date}`,
-    kind, activity: kind === "waste" ? "2" : "9", entry, state, station, chi, clerk, date,
+    kind, activity: kind === "waste" ? "2" : "9", entry, state, station,
+    ...(chi ? { chi } : {}), ...(clerk ? { clerk } : {}), date,
   };
 }
 

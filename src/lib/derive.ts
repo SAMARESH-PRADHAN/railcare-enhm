@@ -1,8 +1,10 @@
 import { differenceInCalendarDays, format, set } from "date-fns";
 import type {
-  AnyEntry, Contract, DemoDB, MrfEntry, Station, User, WasteEntry,
+  AnyEntry, Contract, ContractStatus, DemoDB, MrfEntry, Station, User, WasteEntry,
 } from "@/data/types";
 import { dayOffset, dueAt, todayISO } from "@/data/seed";
+
+export { todayISO };
 
 /* ---------- cell status ---------- */
 
@@ -37,7 +39,8 @@ export function entryCellState(entry: AnyEntry, nowTs = Date.now()): CellState {
 /** Cell for a station/activity on a date, even when no entry exists. */
 export function cellFor(db: DemoDB, activity: "2" | "9", stationId: string, date: string, nowTs = Date.now()): { state: CellState; entry?: AnyEntry } {
   const entries = (activity === "2" ? db.wasteEntries : db.mrfEntries).filter((e) => e.stationId === stationId && e.date === date);
-  if (entries.length) return { state: entryCellState(entries[0], nowTs), entry: entries[0] };
+  const entry = entries[0];
+  if (entry) return { state: entryCellState(entry, nowTs), entry };
   const due = dueAt(date, activity === "2" ? db.rules.wasteDueHour : db.rules.mrfDueHour);
   if (date < todayISO() || nowTs > new Date(due).getTime()) return { state: "missing" };
   return { state: "pending" };

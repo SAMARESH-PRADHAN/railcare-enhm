@@ -29,7 +29,7 @@ function RulesAndRanges() {
   };
 
   const [draft, setDraft] = useState<Record<string, StationRange>>({});
-  const rangeOf = (id: string) => draft[id] ?? db.ranges[id];
+  const rangeOf = (id: string) => draft[id] ?? db.ranges[id] ?? { dry: [0, 0] as [number, number], wet: [0, 0] as [number, number], infeed: [0, 0] as [number, number] };
 
   const setRange = (id: string, key: keyof StationRange, idx: 0 | 1, value: string) => {
     const cur = rangeOf(id);
