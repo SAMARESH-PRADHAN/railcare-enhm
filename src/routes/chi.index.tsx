@@ -60,16 +60,16 @@ function ChiWorkspace() {
   const outstanding: { key: string; kind: "waste" | "mrf"; stationId: string; date: string; dueHour: number; exists?: WasteEntry | MrfEntry }[] = [];
   myStations.forEach((s) => {
     const w = db.wasteEntries.find((e) => e.stationId === s.id && e.date === today);
-    if (!w || w.status === "sent_back") outstanding.push({ key: `waste~${s.id}~${today}`, kind: "waste", stationId: s.id, date: today, dueHour: db.rules.wasteDueHour, exists: w });
+    if (!w || w.status === "sent_back") outstanding.push({ key: `waste~${s.id}~${today}`, kind: "waste", stationId: s.id, date: today, dueHour: db.rules.wasteDueHour, ...(w ? { exists: w } : {}) });
     if (mrfIds.has(s.id)) {
       const m = db.mrfEntries.find((e) => e.stationId === s.id && e.date === today);
-      if (!m || m.status === "sent_back") outstanding.push({ key: `mrf~${s.id}~${today}`, kind: "mrf", stationId: s.id, date: today, dueHour: db.rules.mrfDueHour, exists: m });
+      if (!m || m.status === "sent_back") outstanding.push({ key: `mrf~${s.id}~${today}`, kind: "mrf", stationId: s.id, date: today, dueHour: db.rules.mrfDueHour, ...(m ? { exists: m } : {}) });
     }
   });
 
   const completed = [
-    ...db.wasteEntries.filter((e) => e.chiId === currentUser.id && e.submittedAt).sort((a, b) => b.submittedAt!.localeCompare(a.submittedAt!)).map((e) => ({ kind: "waste" as const, e })),
-    ...db.mrfEntries.filter((e) => e.chiId === currentUser.id && e.submittedAt).sort((a, b) => b.submittedAt!.localeCompare(a.submittedAt!)).map((e) => ({ kind: "mrf" as const, e })),
+    ...db.wasteEntries.filter((e) => e.chiId === currentUser.id && e.submittedAt).sort((a, b) => (b.submittedAt ?? "").localeCompare(a.submittedAt ?? "")).map((e) => ({ kind: "waste" as const, e })),
+    ...db.mrfEntries.filter((e) => e.chiId === currentUser.id && e.submittedAt).sort((a, b) => (b.submittedAt ?? "").localeCompare(a.submittedAt ?? "")).map((e) => ({ kind: "mrf" as const, e })),
   ].slice(0, 10);
 
   const myContracts = db.contracts.filter((c) => myStations.some((s) => s.id === c.stationId) && contractStatus(c, db.rules.contractLeadDays) !== "active");
@@ -133,7 +133,8 @@ function ChiWorkspace() {
           ) : (
             <div className="space-y-2">
               {outstanding.map((t) => {
-                const station = db.stations.find((s) => s.id === t.stationId)!;
+                const station = db.stations.find((s) => s.id === t.stationId);
+                if (!station) return null;
                 const isLate = new Date().getHours() >= t.dueHour;
                 return (
                   <Link key={t.key} to="/chi/task/$taskId" params={{ taskId: t.key }}

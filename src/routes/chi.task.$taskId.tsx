@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle2, Info, TriangleAlert, Undo2, X } from "lucide-react";
+import { ArrowLeft, Camera, CheckCircle2, Info, TriangleAlert, Undo2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,7 +26,7 @@ function TaskPage() {
 function TaskInner({ taskId }: { taskId: string }) {
   const { db, actions, currentUser } = useDemo();
 
-  const [kindRaw, stationId, date] = taskId.split("~");
+  const [kindRaw, stationId = "", date = ""] = taskId.split("~");
   const kind = kindRaw === "waste" ? "waste" : kindRaw;
   const valid = (kind === "waste" || kind === "mrf") && !!db.stations.find((s) => s.id === stationId && s.chiId === currentUser.id);
 
