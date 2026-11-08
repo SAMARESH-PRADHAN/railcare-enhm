@@ -44,7 +44,7 @@ function RulesAndRanges() {
     let failed = false;
     fields.forEach((k) => {
       [0, 1].forEach((i) => {
-        const res = actions.updateRange(id, k, i as 0 | 1, r[k][i]);
+        const res = actions.updateRange(id, k, i as 0 | 1, r[k][i] ?? 0);
         if (!res.ok) { toast.error(`${id}: ${res.error}`); failed = true; }
       });
     });
