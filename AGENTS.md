@@ -10,3 +10,5 @@
 <!-- LOVABLE:END -->
 
 Keep the station detail page at `/stations/$stationId` as a top-level route because both admin and officer workspaces link to the same station profile.
+
+Keep reusable directory, contract, audit, catalogue and report screens together in the shared reference-pages module because these views reuse common sample data across role workspaces.

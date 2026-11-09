@@ -9,7 +9,13 @@ import { EmptyState, PageHeader, SectionCard, StatusBadge, DemoNote } from "@/co
 import { todayISO } from "@/data/seed";
 
 export const Route = createFileRoute("/clerk/corrections")({
-  head: () => ({ meta: [{ title: "Pending Corrections | Clerk | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "Pending Corrections | Clerk | EnHM Management System" },
+    { name: "description", content: "Track CHI corrections requested by verification clerks." },
+    { property: "og:title", content: "Pending Corrections | Clerk | EnHM Management System" },
+    { property: "og:description", content: "Sample correction tracking for EnHM clerk workflows." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: PendingCorrections,
 });
 

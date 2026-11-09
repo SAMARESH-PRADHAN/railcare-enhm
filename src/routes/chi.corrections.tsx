@@ -8,7 +8,13 @@ import { activityName, fmtDate, stationsOfChi } from "@/lib/derive";
 import { EmptyState, StatusBadge, DemoNote } from "@/components/shared/ui-bits";
 
 export const Route = createFileRoute("/chi/corrections")({
-  head: () => ({ meta: [{ title: "Corrections Required | CHI Field Workspace | EnHM" }] }),
+  head: () => ({ meta: [
+    { title: "Corrections Required | CHI Field Workspace | EnHM" },
+    { name: "description", content: "View clerk send-backs and resubmit corrections while preserving original CHI readings." },
+    { property: "og:title", content: "Corrections Required | CHI Field Workspace | EnHM" },
+    { property: "og:description", content: "CHI correction queue for the EnHM demonstration." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: ChiCorrections,
 });
 

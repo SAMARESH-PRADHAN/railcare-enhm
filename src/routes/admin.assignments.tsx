@@ -23,7 +23,13 @@ import { userById } from "@/lib/derive";
 import type { User } from "@/data/types";
 
 export const Route = createFileRoute("/admin/assignments")({
-  head: () => ({ meta: [{ title: "Assignments & Leave | Admin | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "Assignments & Leave | Admin | EnHM Management System" },
+    { name: "description", content: "CHI and clerk workload assignments, leave reassignment and history for the EnHM demonstration." },
+    { property: "og:title", content: "Assignments & Leave | Admin | EnHM Management System" },
+    { property: "og:description", content: "Sample workload assignment and reassignment management." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: Assignments,
 });
 

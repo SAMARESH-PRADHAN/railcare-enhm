@@ -17,6 +17,7 @@ export const Route = createFileRoute("/admin/")({
       { title: "Admin Dashboard | EnHM Management System" },
       { name: "description", content: "Division-wide administration dashboard — users, stations, assignments, activity configuration and demo settings." },
       { property: "og:title", content: "Admin Dashboard | EnHM Management System" },
+      { property: "og:description", content: "Division-wide administration of users, stations, assignments and reporting rules." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

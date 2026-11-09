@@ -19,6 +19,7 @@ export const Route = createFileRoute("/chi/")({
       { title: "CHI Field Workspace | EnHM Management System" },
       { name: "description", content: "Mobile-first field workspace for Chief Health Inspectors — daily solid waste and MRF reporting with offline-queue simulation." },
       { property: "og:title", content: "CHI Field Workspace | EnHM Management System" },
+      { property: "og:description", content: "Mobile-first field reporting tasks for daily solid waste and MRF activity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

@@ -18,7 +18,13 @@ import { EmptyState, PageHeader, SectionCard, DemoNote } from "@/components/shar
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/users")({
-  head: () => ({ meta: [{ title: "User Management | Admin | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "User Management | Admin | EnHM Management System" },
+    { name: "description", content: "Manage fictional CHI, clerk and officer accounts for the EnHM demonstration." },
+    { property: "og:title", content: "User Management | Admin | EnHM Management System" },
+    { property: "og:description", content: "Sample personnel and assignment administration." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: UserManagement,
 });
 

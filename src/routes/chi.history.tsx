@@ -10,7 +10,13 @@ import { EmptyState, StatusBadge, DemoNote, DemoPhoto } from "@/components/share
 import { todayISO } from "@/data/seed";
 
 export const Route = createFileRoute("/chi/history")({
-  head: () => ({ meta: [{ title: "Submission History | CHI Field Workspace | EnHM" }] }),
+  head: () => ({ meta: [
+    { title: "Submission History | CHI Field Workspace | EnHM" },
+    { name: "description", content: "CHI report submission history, verification notes and preserved readings." },
+    { property: "og:title", content: "Submission History | CHI Field Workspace | EnHM" },
+    { property: "og:description", content: "Field report history for the EnHM demonstration." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: ChiHistory,
 });
 
