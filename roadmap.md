@@ -36,6 +36,7 @@
 
 ## Shared pages & polish
 - [x] Stations directory + station details, Users directory + details
-- [x] Assumptions page, Reports overview, Audit trail, Demo settings
+- [x] Assumptions page, Reports overview, Audit trail, Demo settings, contract alerts, activity catalogue
+- [x] Complete missing shared navigation destinations and user profiles
 - [x] Responsive pass (mobile), accessibility (icons+text statuses), visual polish
-- [x] Verify full demo flow end-to-end in browser
+- [ ] Verify full demo flow end-to-end in browser

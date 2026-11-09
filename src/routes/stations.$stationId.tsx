@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyState, PageHeader, SectionCard, StatusBadge } from "@/components/shared/ui-bits";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useDemo } from "@/lib/store";
-import { activityName, cellFor, clerkOfChi, contractStatus, fmtDate, fmtKg, stationById, userById } from "@/lib/derive";
+import { activityName, cellFor, clerkOfChi, contractStatus, fmtDate, fmtKg, stationById, userById, stationsOfClerk } from "@/lib/derive";
 import { todayISO } from "@/data/seed";
 
 export const Route = createFileRoute("/stations/$stationId")({
@@ -23,11 +23,14 @@ export const Route = createFileRoute("/stations/$stationId")({
 
 function StationDetails() {
   const { stationId } = Route.useParams();
-  const { db } = useDemo();
+  const { db, currentUser } = useDemo();
   const station = stationById(db, stationId);
 
-  if (!station) {
-    return <EmptyState icon={Building2} title="Station not found" hint="This station is not part of the current demonstration data." action={<Button asChild variant="outline"><Link to="/admin/stations">Back to stations</Link></Button>} />;
+  const allowed = currentUser.role === "admin" || currentUser.role === "officer" ||
+    (currentUser.role === "chi" && station?.chiId === currentUser.id) ||
+    (currentUser.role === "clerk" && station?.chiId && stationsOfClerk(db, currentUser.id).some((item) => item.id === station.id));
+  if (!station || !allowed) {
+    return <EmptyState icon={Building2} title={station ? "Station not in your assigned scope" : "Station not found"} hint="Station profiles are limited to the current role's assignment scope." action={<Button asChild variant="outline"><Link to="/stations">Back to stations</Link></Button>} />;
   }
 
   const chi = station.chiId ? userById(db, station.chiId) : undefined;
