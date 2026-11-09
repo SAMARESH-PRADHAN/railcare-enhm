@@ -12,7 +12,13 @@ import { PageHeader, SectionCard, DemoNote, SampleBanner } from "@/components/sh
 import type { StationRange } from "@/data/types";
 
 export const Route = createFileRoute("/admin/rules")({
-  head: () => ({ meta: [{ title: "Rules & Ranges | Admin | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "Rules & Ranges | Admin | EnHM Management System" },
+    { name: "description", content: "Configure report deadlines, contract warnings and station-specific expected ranges." },
+    { property: "og:title", content: "Rules & Ranges | Admin | EnHM Management System" },
+    { property: "og:description", content: "Demonstration reporting deadlines and per-station waste and MRF ranges." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: RulesAndRanges,
 });
 

@@ -7,7 +7,13 @@ import type { MrfEntry, WasteEntry } from "@/data/types";
 import { EmptyState, PageHeader, SectionCard, DemoNote } from "@/components/shared/ui-bits";
 
 export const Route = createFileRoute("/clerk/history")({
-  head: () => ({ meta: [{ title: "Verification History | Clerk | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "Verification History | Clerk | EnHM Management System" },
+    { name: "description", content: "View clerk decisions, notes and sample report verification history." },
+    { property: "og:title", content: "Verification History | Clerk | EnHM Management System" },
+    { property: "og:description", content: "EnHM demonstration verification audit for clerks." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: ClerkHistory,
 });
 

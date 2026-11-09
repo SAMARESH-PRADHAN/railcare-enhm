@@ -26,6 +26,7 @@ export const Route = createFileRoute("/clerk/")({
       { title: "Clerk Dashboard | EnHM Management System" },
       { name: "description", content: "EnHM verification clerk workspace — exception worklist, send back and clearing with mandatory notes." },
       { property: "og:title", content: "Clerk Dashboard | EnHM Management System" },
+      { property: "og:description", content: "Clerk exception review, mandatory verification notes and CHI follow-up worklist." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

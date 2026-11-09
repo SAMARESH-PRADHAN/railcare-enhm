@@ -18,7 +18,13 @@ import type { Station, StationCategory } from "@/data/types";
 import { EmptyState, PageHeader, SampleBanner, SectionCard, StatusBadge, DemoNote } from "@/components/shared/ui-bits";
 
 export const Route = createFileRoute("/admin/stations")({
-  head: () => ({ meta: [{ title: "Station Management | Admin | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "Station Management | Admin | EnHM Management System" },
+    { name: "description", content: "Manage sample stations and CHI assignments in the EnHM demonstration system." },
+    { property: "og:title", content: "Station Management | Admin | EnHM Management System" },
+    { property: "og:description", content: "Sample station master data and field assignment management." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: StationManagement,
 });
 

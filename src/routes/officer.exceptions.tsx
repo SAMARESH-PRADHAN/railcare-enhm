@@ -17,7 +17,13 @@ import { todayISO } from "@/data/seed";
 import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/officer/exceptions")({
   head: () => ({
-    meta: [{ title: "Exception Queue | Officer | EnHM Management System" }],
+    meta: [
+      { title: "Exception Queue | Officer | EnHM Management System" },
+      { name: "description", content: "Review missing, late, out-of-range and returned EnHM reports across sample stations." },
+      { property: "og:title", content: "Exception Queue | Officer | EnHM Management System" },
+      { property: "og:description", content: "Division-wide demonstration exception monitoring." },
+      { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+    ],
   }),
   component: ExceptionQueue,
 });

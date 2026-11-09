@@ -13,7 +13,13 @@ import type { MrfEntry, WasteEntry } from "@/data/types";
 import { DemoNote, DemoPhoto } from "@/components/shared/ui-bits";
 
 export const Route = createFileRoute("/chi/task/$taskId")({
-  head: () => ({ meta: [{ title: "Report Entry | CHI Field Workspace | EnHM" }] }),
+  head: () => ({ meta: [
+    { title: "Report Entry | CHI Field Workspace | EnHM" },
+    { name: "description", content: "Submit or correct a station's daily solid waste or MRF report in the EnHM demo." },
+    { property: "og:title", content: "Report Entry | CHI Field Workspace | EnHM" },
+    { property: "og:description", content: "Daily field reporting page for the EnHM demonstration." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: TaskPage,
 });
 

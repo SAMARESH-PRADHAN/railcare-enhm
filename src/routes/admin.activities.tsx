@@ -15,7 +15,13 @@ import type { ActivityDef } from "@/data/types";
 import { PageHeader, SectionCard, StatusBadge, DemoNote, EmptyState } from "@/components/shared/ui-bits";
 
 export const Route = createFileRoute("/admin/activities")({
-  head: () => ({ meta: [{ title: "Activity Configuration | Admin | EnHM Management System" }] }),
+  head: () => ({ meta: [
+    { title: "Activity Configuration | Admin | EnHM Management System" },
+    { name: "description", content: "Review the 31 EnHM activities and configure demonstration catalogue previews." },
+    { property: "og:title", content: "Activity Configuration | Admin | EnHM Management System" },
+    { property: "og:description", content: "Operational and upcoming EnHM activity catalogue." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  ] }),
   component: ActivityConfiguration,
 });
 
