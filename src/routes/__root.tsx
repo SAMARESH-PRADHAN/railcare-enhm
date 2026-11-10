@@ -13,7 +13,7 @@ import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { RailMark } from "@/lib/store";
+import { DemoStoreProvider, RailMark } from "@/lib/store";
 
 function NotFoundComponent() {
   return (
@@ -107,7 +107,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <DemoStoreProvider>
+        <Outlet />
+      </DemoStoreProvider>
       <Toaster position="top-right" expand={false} richColors closeButton />
     </QueryClientProvider>
   );
